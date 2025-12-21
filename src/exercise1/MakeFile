@@ -1,0 +1,17 @@
+RPI_V ?= 4
+
+COMPILER ?= aarch64-linux-gnu-gcc
+
+
+
+
+C_FLAGS = -DRPI_VERSION=${RPI_V} -Wall -Wextra -nostdlib -nostartfiles -ffreestanding \
+			-Iinclude -mgeneral-regs-only
+
+
+ASM_OPS = -Iinclude
+
+
+BUILD_DIR = build
+
+SRC_DIR = src

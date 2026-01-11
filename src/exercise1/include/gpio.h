@@ -19,6 +19,17 @@ typedef enum _GpioFunc {
 } GpioFunc;
 
 
+typedef enum _Gpio_pu_pd{
+  PullNone = 0,  // 00
+  PullUp   = 1,  // 01
+  PullDown = 2,  // 10
+  Reserved = 3   // 11
+} Gpio_pu_pd;
+
 void gpio_pin_set_func(byte pinNum, GpioFunc func);
 
-void gpio_pin_enable(byte pinNum);
+
+void gpio_pin_set(byte pinNum, Gpio_pu_pd mode);
+
+
+void gpio_pin_setzero(byte pinNum);

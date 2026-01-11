@@ -3,7 +3,7 @@
 #include "../common.h"
 #include "base.h"
 
-#define GPIO_BASE 0x7E200000
+#define GPIO_BASE 0xFE200000
 
 struct GpioPinData {
   reg32 reserved;

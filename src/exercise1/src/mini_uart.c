@@ -61,6 +61,7 @@ void uart_init() {
 
 
 
+
   //3. Clear possible interrupts by setting to 0 the int handlers
 
     //Set to 0 the enable receiver and enable transmitter (Bits 1 and 0);

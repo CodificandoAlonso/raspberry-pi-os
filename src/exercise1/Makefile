@@ -2,7 +2,7 @@ RPI_V ?= 4
 
 COMPILER ?= aarch64-linux-gnu
 
-BOOTLOC ?= /home/hectoralv22/Desktop
+BOOTLOC ?= /media/hectoralv22/1234-5678
 
 
 C_FLAGS = -DRPI_VERSION=$(RPI_V) -Wall -Wextra -nostdlib -nostartfiles -ffreestanding \

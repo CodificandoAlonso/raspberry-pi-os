@@ -6,42 +6,7 @@
 #include "mini_uart.h"
 #include "peripherials/gpio.h"
 #include "gpio.h"
-
-
-
-/*
-1. Enable mini UART
-└─► Which register enables AUX peripherals?
-Which bit for mini UART?
-
-2. Disable TX/RX during configuration
-└─► Which register controls TX/RX enable?
-Set both to 0
-
-3. Disable interrupts (for now)
-└─► Which register controls interrupts?
-
-4. Set data format: 8 bits
-└─► Which register? Which bits for 8-bit mode?
-
-5. Set baud rate
-└─► Which register?
-Formula: baudrate_reg = (system_clock / (8 * baud)) - 1
-What's the system clock for mini UART? (Hint: check config.txt options)
-
-
-6. Configure GPIO pins 14/15
-└─► Call gpio_pin_set_func for pin 14
-Call gpio_pin_set_func for pin 15
-What alternate function is mini UART? (ALT0? ALT5? Check table!)
-Call gpio_pin_enable for both
-
-7. Enable TX and RX
-└─► Same register as step 2, now enable both
-
-
-*/
-
+#include <stdbool.h>
 
 #define BAUD_RATE 0x21E
 
@@ -96,12 +61,12 @@ void uart_init() {
   gpio_pin_set_func(15, GFAlt5);
 
 
-  /*It specifies that the irq status should be set after the GPIO pins were
+  /*It specifies that the control bits should be set after the GPIO pins were
   *being set up
   *
   */
   //FINAL STEP. PUT AUX_MU_CNTRL ON UART MODE
-    //Set 1 in bit 0 and 1
+    //Set 1 in bit 0 and 1, no clear because done in step 2
     AUX_REGS->mu_control |= 3 << 0;
 
 
@@ -126,7 +91,16 @@ Which register holds received data?
 
 char uart_read() {
 
+    bool cond = (AUX_REGS->mu_status & (1 << 0)) != 0;
 
+    while (cond != true){
+        cond = (AUX_REGS->mu_status & (1 << 0)) != 0;
+    }
+
+    //Byte available to read.
+
+    char ret_val = (AUX_REGS->mu_io >> 0) & ((1 << 8) -1);
+    return ret_val;
 }
 
 
@@ -148,6 +122,15 @@ Same data register as read, or different?
 void uart_write(char c) {
 
 
+    //Wait until acceptance of symbol
+    bool cond = (AUX_REGS->mu_status & (1 << 1)) != 0;
+
+    while (cond != true){
+        cond = (AUX_REGS->mu_status & (1 << 1)) != 0;
+    }
+
+    //Byte available to read.
+    AUX_REGS->mu_io = c;
 }
 
 

@@ -50,7 +50,7 @@ kernel8.img: $(SRC_DIR)/linker.ld $(OBJ_FILES)
 	$(COMPILER)-ld -T $(SRC_DIR)/linker.ld -o $(BUILD_DIR)/kernel8.elf $(OBJ_FILES)
 	$(COMPILER)-objcopy $(BUILD_DIR)/kernel8.elf -O binary kernel8.img
 ifeq ($(RPI_V), 4)
-	cp kernel8.img $(BOOTLOC)/kernel8-rpi4.img
+	cp kernel8.img $(BOOTLOC)/kernel8.img
 else
 	cp kernel8.img $(BOOTLOC)/
 endif

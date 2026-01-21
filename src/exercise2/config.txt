@@ -1,0 +1,5 @@
+disable_commandline_tags=1
+total_memory=4096
+enable_uart=1
+arm_64bit=1
+core_freq=500
